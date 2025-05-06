@@ -1,6 +1,6 @@
 # Poker AI Full-Stack Application
 
-A full-stack Texas Hold’em Poker AI game built with an ASP.NET Core Web API backend (C#) and an Angular frontend (TypeScript). Bots and human players can play through a REST API or via a web UI with automated bot “thinking” delays.
+A full-stack Texas Hold’em Poker AI game built with an ASP.NET Core Web API backend (C#) and an Angular frontend (TypeScript). Bots and human players can play through a REST API or via a web UI.
 
 ---
 
@@ -24,7 +24,7 @@ A full-stack Texas Hold’em Poker AI game built with an ASP.NET Core Web API ba
 ## Features
 
 * Deal, betting, and showdown logic for Texas Hold’em
-* Automated bot players with adjustable “thinking” delays (1–3 seconds)
+* Automated bot players with adjustable difficulty
 * Stage progression (preflop → flop → turn → river → showdown)
 * Full game state exposed over REST endpoints
 * Interactive Angular UI to visualize pot, community cards, and player actions
