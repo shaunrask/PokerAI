@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\PokerApi\\PokerApi.csproj": {}
+    "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\backend\\PokerApi\\PokerApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\PokerApi\\PokerApi.csproj": {
+    "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\backend\\PokerApi\\PokerApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\PokerApi\\PokerApi.csproj",
+        "projectUniqueName": "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\backend\\PokerApi\\PokerApi.csproj",
         "projectName": "PokerApi",
-        "projectPath": "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\PokerApi\\PokerApi.csproj",
+        "projectPath": "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\backend\\PokerApi\\PokerApi.csproj",
         "packagesPath": "C:\\Users\\rasks\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\PokerApi\\obj\\",
+        "outputPath": "C:\\Users\\rasks\\OneDrive\\Desktop\\PokerAI\\PokerAI\\backend\\PokerApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rasks\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -47,6 +47,10 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.4, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[8.1.1, )"
             }
           },
           "imports": [

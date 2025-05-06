@@ -1,0 +1,8 @@
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.csproj.AssemblyReference.cache
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.AssemblyInfoInputs.cache
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.AssemblyInfo.cs
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.csproj.CoreCompileInputs.cache
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.sourcelink.json
