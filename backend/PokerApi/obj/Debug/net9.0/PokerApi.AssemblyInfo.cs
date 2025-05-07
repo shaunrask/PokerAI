@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PokerApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c36aedfc0f48804f49b30434c6c7c75823ab5476")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+86a4b5fccaa2a3d49696b3c553786882d466c471")]
 [assembly: System.Reflection.AssemblyProductAttribute("PokerApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PokerApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
