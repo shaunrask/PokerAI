@@ -1,9 +1,3 @@
-C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.csproj.AssemblyReference.cache
-C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.csproj.CoreCompileInputs.cache
-C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.sourcelink.json
 C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\bin\Debug\net9.0\testhost.dll
 C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\bin\Debug\net9.0\testhost.exe
 C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\bin\Debug\net9.0\appsettings.Development.json
@@ -100,6 +94,12 @@ C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\bin\Debug\net9.
 C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\bin\Debug\net9.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\bin\Debug\net9.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\bin\Debug\net9.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.csproj.AssemblyReference.cache
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.csproj.CoreCompileInputs.cache
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\PokerApi.sourcelink.json
 C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\scopedcss\bundle\PokerApi.styles.css
 C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\rasks\OneDrive\Desktop\PokerAI\PokerAI\backend\PokerApi\obj\Debug\net9.0\staticwebassets.development.json

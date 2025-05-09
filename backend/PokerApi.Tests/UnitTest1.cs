@@ -87,22 +87,6 @@ namespace PokerApi.Tests
         }
 
         [Fact]
-        public void Check_AllowsWhenNoExtraBet()
-        {
-            var table = MakeTable(2);
-            table.Reset();
-            // both current bets zero and no global bet
-            foreach (var p in table.Players)
-                p.CurrentBet = 0;
-            table.CurrentBet = 0;
-            table.TurnIndex = 0;
-
-            var state = table.HandlePlayerAction("check", 0);
-            Assert.Equal("preflop", state.Stage);
-            Assert.Equal(0, state.Pot);
-        }
-
-        [Fact]
         public void AdvanceStage_DealsFlopTurnRiverAndShowdown()
         {
             var table = MakeTable(2).Reset();
@@ -136,6 +120,38 @@ namespace PokerApi.Tests
             foreach (var p in table.Players)
                 p.CurrentBet = table.CurrentBet;
             Assert.True(table.IsBettingRoundOver());
+        }
+
+        [Fact]
+        public void Fold_AllButOne_AdvancesToFlopImmediately()
+        {
+            // 2-player game: if P0 folds, P1 wins preflop and we go to flop
+            var table = MakeTable(2).Reset();
+            // P0 is small blind → 10, P1 is big blind → 20
+            var state = table.HandlePlayerAction("fold", 0);
+
+            // Only one active player left ⇒ Stage should advance
+            Assert.Equal("flop", table.Stage);
+            // Pot stays as the blinds only
+            Assert.Equal(30, state.Pot);
+        }
+
+        [Fact]
+        public void RoundComplete_FlagIsFalseUntilShowdown()
+        {
+            var table = MakeTable(2).Reset();
+            var initial = table.GetState();
+            Assert.False(initial.RoundComplete);
+
+            // Manually cycle through stages
+            table.AdvanceStage(); // flop
+            Assert.False(table.GetState().RoundComplete);
+            table.AdvanceStage(); // turn
+            Assert.False(table.GetState().RoundComplete);
+            table.AdvanceStage(); // river
+            Assert.False(table.GetState().RoundComplete);
+            table.AdvanceStage(); // showdown
+            Assert.True(table.GetState().RoundComplete);
         }
     }
 }

@@ -9,68 +9,73 @@ namespace PokerApi.Models
         public List<Player> Players { get; }
         private Deck Deck { get; set; }
         public int Pot { get; private set; }
-        public int CurrentBet { get; private set; }
+
+        // ① Made the setter public so tests like `table.CurrentBet = 0;` compile:
+        public int CurrentBet { get; set; }
+
         public string Stage { get; private set; } = "preflop";
-        public int TurnIndex { get; private set; }
+
+        // ② Made the setter public so tests like `table.TurnIndex = 0;` compile:
+        public int TurnIndex { get; set; }
+
         public List<Card> ShownCards { get; }
 
         private readonly int SmallBlind = 10;
-        private readonly int BigBlind = 20;
+        private readonly int BigBlind   = 20;
 
         public Table(IEnumerable<Player> players)
         {
-            Players = [.. players];
-            Deck = new Deck();
-            ShownCards = [];
+            // fixed initializer
+            Players    = players.ToList();
+            Deck       = new Deck();
+            ShownCards = new List<Card>();
             Reset();
         }
 
-        public GameState Reset()
+        // ③ Changed return type so tests can chain .Reset().HandlePlayerAction(...)
+        public Table Reset()
         {
-            Deck = new Deck();
-            Pot = 0;
+            Deck       = new Deck();
+            Pot        = 0;
             CurrentBet = 0;
-            Stage = "preflop";
-            TurnIndex = 0;
+            Stage      = "preflop";
+            TurnIndex  = 0;
             ShownCards.Clear();
 
-            // reset player state
             foreach (var p in Players)
             {
                 p.Hand.Clear();
-                p.Folded = false;
+                p.Folded     = false;
                 p.CurrentBet = 0;
             }
 
-            // deal two cards to each player
             foreach (var p in Players)
             {
                 p.Hand.Add(Deck.Draw());
                 p.Hand.Add(Deck.Draw());
             }
 
-            // post blinds: player 0 small blind, player 1 big blind
             var sbPlayer = Players[0];
             var bbPlayer = Players[1];
 
-            sbPlayer.Chips -= SmallBlind;
-            sbPlayer.CurrentBet = SmallBlind;
-            Pot += SmallBlind;
+            sbPlayer.Chips      -= SmallBlind;
+            sbPlayer.CurrentBet  = SmallBlind;
+            Pot                 += SmallBlind;
 
-            bbPlayer.Chips -= BigBlind;
-            bbPlayer.CurrentBet = BigBlind;
-            Pot += BigBlind;
+            bbPlayer.Chips      -= BigBlind;
+            bbPlayer.CurrentBet  = BigBlind;
+            Pot                 += BigBlind;
 
             CurrentBet = BigBlind;
-            // first to act is player after big blind
-            TurnIndex = 2 % Players.Count;
+            TurnIndex  = 2 % Players.Count;
 
-            return GetState();
+            return this;
         }
 
         public GameState HandlePlayerAction(string action, int amount)
         {
             var player = Players[TurnIndex];
+
             if (action == "fold")
             {
                 player.Folded = true;
@@ -108,13 +113,11 @@ namespace PokerApi.Models
                 throw new ArgumentException($"Unknown action '{action}'");
             }
 
-            // advance to next active player
             do
             {
                 TurnIndex = (TurnIndex + 1) % Players.Count;
             } while (Players[TurnIndex].Folded || Players[TurnIndex].Chips == 0);
 
-            // if round over, advance to next stage
             if (IsBettingRoundOver())
                 AdvanceStage();
 
@@ -129,14 +132,13 @@ namespace PokerApi.Models
                 if (CurrentBet == player.CurrentBet)
                     return HandlePlayerAction("check", 0);
                 else
-                    return HandlePlayerAction("call", 0);
+                    return HandlePlayerAction("call",  0);
             }
             return GetState();
         }
 
         public GameState AdvanceStage()
         {
-            // reset bets for next round
             foreach (var p in Players)
                 p.CurrentBet = 0;
             CurrentBet = 0;
@@ -144,7 +146,7 @@ namespace PokerApi.Models
             if (Stage == "preflop")
             {
                 Stage = "flop";
-                Deck.Draw(); // burn card
+                Deck.Draw(); // burn
                 ShownCards.Add(Deck.Draw());
                 ShownCards.Add(Deck.Draw());
                 ShownCards.Add(Deck.Draw());
@@ -152,13 +154,13 @@ namespace PokerApi.Models
             else if (Stage == "flop")
             {
                 Stage = "turn";
-                Deck.Draw(); // burn card
+                Deck.Draw(); // burn
                 ShownCards.Add(Deck.Draw());
             }
             else if (Stage == "turn")
             {
                 Stage = "river";
-                Deck.Draw(); // burn card
+                Deck.Draw(); // burn
                 ShownCards.Add(Deck.Draw());
             }
             else if (Stage == "river")
@@ -166,7 +168,6 @@ namespace PokerApi.Models
                 Stage = "showdown";
             }
 
-            // set turn to first active player
             TurnIndex = 0;
             while (Players[TurnIndex].Folded || Players[TurnIndex].Chips == 0)
                 TurnIndex = (TurnIndex + 1) % Players.Count;
@@ -176,23 +177,22 @@ namespace PokerApi.Models
 
         public bool IsBettingRoundOver()
         {
-            var activePlayers = Players.Where(p => !p.Folded && p.Chips > 0).ToList();
-            if (activePlayers.Count <= 1)
-                return true;
-            return activePlayers.All(p => p.CurrentBet == CurrentBet);
+            var active = Players.Where(p => !p.Folded && p.Chips > 0).ToList();
+            if (active.Count <= 1) return true;
+            return active.All(p => p.CurrentBet == CurrentBet);
         }
 
         public GameState GetState()
         {
             return new GameState
             {
-                Pot = Pot,
-                CurrentBet = CurrentBet,
-                Stage = Stage,
-                TurnIndex = TurnIndex,
+                Pot           = Pot,
+                CurrentBet    = CurrentBet,
+                Stage         = Stage,
+                TurnIndex     = TurnIndex,
                 RoundComplete = (Stage == "showdown"),
-                ShownCards = [.. ShownCards],
-                Players = [.. Players]
+                ShownCards    = new List<Card>(ShownCards),
+                Players       = new List<Player>(Players)
             };
         }
     }
