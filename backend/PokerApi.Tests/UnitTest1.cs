@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using PokerApi.Models;
@@ -9,7 +10,6 @@ namespace PokerApi.Tests
     {
         private Table MakeTable(int numPlayers = 3)
         {
-            // Initialize players with required Name and starting Chips
             var players = Enumerable.Range(1, numPlayers)
                                     .Select(i => new Player { Name = $"P{i}", Chips = 1000 })
                                     .ToList();
@@ -22,55 +22,120 @@ namespace PokerApi.Tests
             var table = MakeTable();
             var state = table.Reset();
 
-            // each player has two cards
             Assert.All(state.Players, p => Assert.Equal(2, p.Hand.Count));
-
-            // blinds posted correctly
             Assert.Equal(10, state.Players[0].CurrentBet);
             Assert.Equal(20, state.Players[1].CurrentBet);
-
-            // pot equals sum of blinds
             Assert.Equal(30, state.Pot);
-
-            // action starts after big blind
             Assert.Equal(2, state.TurnIndex);
         }
 
         [Fact]
         public void Fold_RemovesPlayerFromActionAndAdvancesTurn()
         {
-            var table = MakeTable(3);
+            var table = MakeTable(3).Reset();
             int initialTurn = table.TurnIndex;
 
             var state = table.HandlePlayerAction("fold", 0);
 
-            // folded flag set on that player
             Assert.True(table.Players[initialTurn].Folded);
-
-            // turn moved to a different player
             Assert.NotEqual(initialTurn, state.TurnIndex);
         }
 
         [Fact]
         public void Call_DeductsChipsAndIncreasesPot()
         {
-            var table       = MakeTable(2);
-            int callerIndex = table.TurnIndex;
-            var caller      = table.Players[callerIndex];
+            var table = MakeTable(2);
+            var afterReset = table.Reset();
+            int callerIndex = afterReset.TurnIndex;
+            var caller = table.Players[callerIndex];
 
-            int startingChips = caller.Chips;        // 990 after small blind
-            int currentBet    = table.CurrentBet;    // 20
-            int startingPot   = table.Pot;           // 10 + 20 = 30
+            int startingChips = caller.Chips;
+            int currentBet    = afterReset.CurrentBet;
+            int startingPot   = afterReset.Pot;
 
-            int toCall = currentBet - caller.CurrentBet; // 20–10 = 10
-
+            int toCall = currentBet - caller.CurrentBet;
             var state = table.HandlePlayerAction("call", 0);
 
-            // Stack should drop by exactly the amount owed
-            Assert.Equal(startingChips - toCall, caller.Chips);   // 990–10 = 980
+            Assert.Equal(startingChips - toCall, caller.Chips);
+            Assert.Equal(startingPot + toCall, state.Pot);
+        }
 
-            // Pot should increase by the same amount
-            Assert.Equal(startingPot + toCall, state.Pot);        // 30+10 = 40
+        [Fact]
+        public void Raise_IncreasesCurrentBetAndPot()
+        {
+            var table = MakeTable(2).Reset();
+            var raiser = table.Players[table.TurnIndex];
+
+            int startingChips = raiser.Chips;
+            int raiseTo       = table.CurrentBet + 30;
+            int toRaise       = raiseTo - raiser.CurrentBet;
+            int startingPot   = table.Pot;
+
+            var state = table.HandlePlayerAction("raise", raiseTo);
+
+            Assert.Equal(raiseTo, raiser.CurrentBet);
+            Assert.Equal(startingChips - toRaise, raiser.Chips);
+            Assert.Equal(startingPot + toRaise, state.Pot);
+        }
+
+        [Fact]
+        public void Check_ThrowsWhenBetExists()
+        {
+            var table = MakeTable(2).Reset();
+            Assert.Throws<InvalidOperationException>(() =>
+                table.HandlePlayerAction("check", 0));
+        }
+
+        [Fact]
+        public void Check_AllowsWhenNoExtraBet()
+        {
+            var table = MakeTable(2);
+            table.Reset();
+            // both current bets zero and no global bet
+            foreach (var p in table.Players)
+                p.CurrentBet = 0;
+            table.CurrentBet = 0;
+            table.TurnIndex = 0;
+
+            var state = table.HandlePlayerAction("check", 0);
+            Assert.Equal("preflop", state.Stage);
+            Assert.Equal(0, state.Pot);
+        }
+
+        [Fact]
+        public void AdvanceStage_DealsFlopTurnRiverAndShowdown()
+        {
+            var table = MakeTable(2).Reset();
+            // everyone calls
+            while (!table.IsBettingRoundOver())
+                table.HandlePlayerAction("call", 0);
+
+            var flop = table.GetState();
+            Assert.Equal("flop", table.Stage);
+            Assert.Equal(3, flop.ShownCards.Count);
+
+            table.AdvanceStage();
+            Assert.Equal("turn", table.Stage);
+            Assert.Equal(4, table.GetState().ShownCards.Count);
+
+            table.AdvanceStage();
+            Assert.Equal("river", table.Stage);
+            Assert.Equal(5, table.GetState().ShownCards.Count);
+
+            table.AdvanceStage();
+            Assert.Equal("showdown", table.Stage);
+        }
+
+        [Fact]
+        public void IsBettingRoundOver_ReflectsActiveBets()
+        {
+            var table = MakeTable(3).Reset();
+            Assert.False(table.IsBettingRoundOver());
+
+            // everyone posts equal-current bets
+            foreach (var p in table.Players)
+                p.CurrentBet = table.CurrentBet;
+            Assert.True(table.IsBettingRoundOver());
         }
     }
 }
